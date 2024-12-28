@@ -1,0 +1,10 @@
+{
+    "total_issues": 33,
+    "by_severity": {
+        "critical": 1,
+        "high": 16,
+        "medium": 7,
+        "low": 1,
+        "warning": 2
+    }
+}
