@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "example" {
   ami           = "ami-123456"
-  instance_type = "" # Invalid instance type
+  instance_type = "" # Invalid instance type (edit)
 }
 
 resource "aws_s3_bucket" "example" {
