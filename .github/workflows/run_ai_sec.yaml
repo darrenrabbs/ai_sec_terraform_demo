@@ -8,7 +8,7 @@ on:
       - "s3_module/**"
   pull_request:
     branches:
-      - html_report_support
+      - main
     paths:
       - "s3_module/**"
 
