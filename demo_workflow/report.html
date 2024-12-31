@@ -153,8 +153,8 @@ code {
 <thead><tr><th>Severity</th><th>Count</th></tr></thead>
 <tbody>
 <tr style='background-color: #f5c6cb;'><td>Critical</td><td>0</td></tr>
-<tr style='background-color: #ffe5b4;'><td>High</td><td>4</td></tr>
-<tr style='background-color: #fff3cd;'><td>Medium</td><td>9</td></tr>
+<tr style='background-color: #ffe5b4;'><td>High</td><td>5</td></tr>
+<tr style='background-color: #fff3cd;'><td>Medium</td><td>8</td></tr>
 <tr style='background-color: #d4edda;'><td>Low</td><td>0</td></tr>
 <tr style='background-color: #d1ecf1;'><td>Warning</td><td>0</td></tr>
 </tbody></table></div>
@@ -173,7 +173,7 @@ code {
 <td>38</td>
 <td>Unencrypted S3 bucket.</td>
 <td>HIGH</td>
-<td>The issue 'Unencrypted S3 bucket' within the terraform framework refers to a significant security risk where sensitive data stored on Amazon S3 buckets is not encrypted, making it vulnerable to unauthorized access and data breaches. To mitigate this problem, it is essential to enable server-side encryption on all S3 buckets by setting the 'aws_s3_bucket' argument 'server_side_encryption_configuration' within the terraform scripts. This action forces all objects within the bucket to be stored using the Secure Socket Layer (SSL) or Transport Layer Security (TLS), thus enhancing data protection. Ensuring compliance with this encryption policy will dramatically reduce the risk of sensitive data exposure.</td>
+<td>This high-severity issue involves the non-encryption of an S3 bucket in the terraform framework, prompting significant risks such as unauthorized data access, injection attacks or data breaches. It is integral to secure your data both in-transit and at-rest. To mitigate this, ensure that all S3 buckets are fully encrypted, not only serving the purpose of protecting data but also complying with best security practices. Implement encryption in your terraform script with the argument "server_side_encryption_configuration" when declaring the aws_s3_bucket resource. Enable S3 default encryption or use a bucket policy that denies any S3 Put request that doesn't include the s3:x-amz-server-side-encryption header to ensure all future objects are always encrypted.</td>
 <td><a href="https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/enable-bucket-encryption/" target="_blank">https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/enable-bucket-encryption/</a><br><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption" target="_blank">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -200,7 +200,7 @@ code {
 <td>38</td>
 <td>S3 encryption should use Customer Managed Keys</td>
 <td>HIGH</td>
-<td>The issue 'S3 encryption should use Customer Managed Keys' draws attention to a security risk where the S3 buckets used in your infrastructure are not configured to use customer-managed keys (CMKs) for encryption, potentially compromising the safety of your data. By relying on standard AWS managed keys, control over the key lifecycle and security is limited. Consequently, to mitigate this high-severity issue, we recommend transitioning to customer-managed keys as they offer advanced security features. This can be accomplished by modifying the bucket policy in Terraform to include a reference to a KMS key that is customer-managed. Ensure the permissions correctly allow for the usage of the key, thereby bolstering the overall data security of your infrastructure. This practice enables streamlined management of keys, provides full control over their rotation, and offers extensive auditing through CloudTrail.</td>
+<td>The high-severity issue in the Terraform framework indicates that S3 encryption is currently using AWS managed keys instead of Customer Managed Keys (CMKs), which potentially weakens security as the keys are fully controlled by AWS rather than the user. This poses a risk of unauthorized data access. To resolve this, it is strongly recommended to switch the S3 encryption to use CMKs. This could be achieved by creating a new CMK through AWS Key Management Service (KMS) and then updating the Terraform scripts to ensure that all S3 buckets use this key for server-side encryption. This will enhance the security as the control of the encryption keys will be in the hands of the user.</td>
 <td><a href="https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/encryption-customer-key/" target="_blank">https://aquasecurity.github.io/tfsec/v1.28.11/checks/aws/s3/encryption-customer-key/</a><br><a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption" target="_blank">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#enable-default-server-side-encryption</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -209,7 +209,7 @@ code {
 <td>21 - 35</td>
 <td>Ensure that EC2 is EBS optimized</td>
 <td>MEDIUM</td>
-<td>The issue 'Ensure that EC2 is EBS optimized' refers to a non-compliance in the optimal configuration of the Amazon EC2 instances with EBS (Elastic Block Store) volumes. The problem comes from not enabling the EBS-optimized instance option that offers a separate network path for EBS volume I/O, resulting in improved performance of EC2 instances, a lower chance of network contention and interference, and more consistent disk I/O performance. The recommended resolution is to enable EBS-optimization status for all current and future EC2 instances to enjoy dedicated network capacity for data transfer between the instance and EBS. To do this, first check if your instance type supports EBS optimization, then enable it on your EC2 instances via the AWS Management Console, AWS CLI, or an AWS SDK. Enforce this behavior in infrastructural code by setting "ebs_optimized = true" in the Terraform AWS instance configuration block.</td>
+<td>EBS optimization refers to capacity efficiency and performance boosting in Amazon Elastic Block Store (EBS). Non-optimized EBS volumes can cause a bottleneck by sharing network bandwidth with EC2 instances, which may lead to decreased performance and inflated costs. To mitigate this, ensure all EC2 instances are configured as EBS-optimized. This can be done by setting the 'ebs_optimized' attribute to 'true' for each EC2 instance in the terraform configuration file. This enhancement will maximize I/O performance and, in turn, enhance overall system productivity and reduce costs. This setting enables dedicated network capacity for EBS volume I/O, ensuring reliable and robust performance.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -218,7 +218,7 @@ code {
 <td>21 - 35</td>
 <td>Ensure that detailed monitoring is enabled for EC2 instances</td>
 <td>MEDIUM</td>
-<td>The noted issue highlights that detailed monitoring is not enabled for the EC2 instances, compromising your ability to gather comprehensive and in-depth data about instance performance and troubleshoot accordingly. Without it, you're left exposed to potential system outages or performance degradation that can impact user experience or critical operational aspects without any detailed insights to aid problem identification. To rectify this issue, it is advisable to enable detailed monitoring on all your EC2 instances. This can be done within the Amazon Web Services (AWS) Management Console (or via AWS CLI) by navigating to your instance settings and enabling detailed monitoring under the CloudWatch Monitoring section. Enabling this provides instance data every minute instead of the standard five minutes, allowing for faster detection and response to issues or changes. Please note that additional charges may apply.</td>
+<td>The problem at hand identifies that detailed monitoring is disabled for EC2 instances, which severely limits your visibility into resource utilization and system performance. Detailed monitoring collects data every minute and supports faster diagnoses of potential issues if they arise. It's especially critical in production environments where any system performance degradation could lead to significant impacts. To address this issue, enable detailed monitoring on all your EC2 instances to improve system check granularity. This can be done through Amazon CloudWatch, which provides detailed monitoring services for your AWS resources. Ensure that all existing and future EC2 instances have detailed monitoring enabled to increase visibility and, consequently, system performance.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -227,7 +227,7 @@ code {
 <td>38 - 41</td>
 <td>Ensure S3 buckets should have event notifications enabled</td>
 <td>MEDIUM</td>
-<td>The high-severity issue pertains to the absence of event notifications on S3 buckets within the terraform framework, meaning that operations carried out on the S3 bucket like PUT, POST, DELETE, or COPY will not trigger any notifications. This lack of sent alerts can lead to unauthorized activities going unnoticed, thus posing a potential threat to data security. The recommended resolution involves configuring event notifications for all S3 buckets. This can be achieved by using the 'notification_configuration' block in your terraform script to specify the events you wish to receive notifications for and the necessary responders (like Lambda functions, SNS topics, or SQS queues). By doing so, any activity on the S3 bucket will be reported, enhancing visibility and thereby contributing to improved data security.</td>
+<td>This high-severity issue outlines that S3 buckets, a scalable storage in the cloud, do not have event notifications enabled in the Terraform infrastructure. Not having notifications enabled presents a critical risk as it may lead to unnoticed changes, unauthorized access, or data breaches. To address this, it is recommended to configure event notifications on all S3 buckets. This would entail setting up a Simple Notification Service (SNS), Simple Queue Service (SQS), or AWS Lambda in the Terraform configuration to receive and react to bucket event notifications. Thus, ensuring immediate alerts whenever certain events occur, which significantly improves the security measures and allows timely response to any potential issue.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-62" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-62</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -236,7 +236,7 @@ code {
 <td>38 - 41</td>
 <td>Ensure the S3 bucket has access logging enabled</td>
 <td>MEDIUM</td>
-<td>The high-severity issue 'Ensure the S3 bucket has access logging enabled' relates to the absence of auditing measures for access activities in the S3 bucket, thereby creating a significant security gap. Without access logging, it becomes a challenge to track and analyze accesses or changes to the S3 bucket, which in turn, makes it difficult to identify any breaches or unauthorized activities. To resolve this, it's advisable to set up access logging for all your S3 buckets by configuring the logging parameters in the S3 bucket policies within your terraform framework. This way, all the requests made to your S3 bucket are logged into another specified S3 bucket and it becomes easy to keep track of any activity in your buckets.</td>
+<td>This high-severity issue in the Terraform framework pertains to an S3 bucket without enabled access logging. This could potentially lead to a significant security risk as it allows undetected or unauthorized access, hampering the ability to audit interactions with the bucket’s data. To rectify this issue, it's advised to incorporate S3 server access logging into the Terraform code for all S3 bucket creations. This will create a record of all access requests, allowing compliance with best-practice auditing and providing an increased level of security by identifying potential malicious activity.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-13-enable-logging" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-13-enable-logging</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -245,7 +245,7 @@ code {
 <td>38 - 41</td>
 <td>Ensure that S3 bucket has cross-region replication enabled</td>
 <td>MEDIUM</td>
-<td>The issue pertains to the lack of cross-region replication for S3 buckets in Amazon Web Services (AWS) exposed through the Terraform framework. Cross-region replication is a significant feature that ensures backup and easy availability of data by automatically replicating data across buckets in different regions. Without it, any region-specific failures or catastrophes could result in irreversible data loss. Therefore, it is highly recommended to enable cross-region replication for all S3 buckets through a Terraform script. To solve this, update your Terraform configuration file by incorporating the replication_configuration block in your aws_s3_bucket resource. This ensures that every bit of data that enters your S3 bucket is automatically replicated to another bucket, providing an effective disaster recovery strategy and mitigating potential region-specific risks. This approach aligns well with security best practices and infrastructure management.</td>
+<td>The issue pertains to the absence of cross-region replication for an S3 bucket in the AWS environment managed via Terraform, thereby posing a risk of data loss in the event of any regional failures or outages. To resolve this, it is recommended to enable cross-region replication for all critical S3 buckets, which will automatically copy your objects between two specified regions for data redundancy, ensuring higher data durability, availability, and timely disaster recovery. Implementing this functionality in your Terraform scripts requires the addition of the appropriate S3 bucket replication configuration block specifying the destination bucket and storage class where the data will be replicated.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-bucket-has-cross-region-replication-enabled" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-bucket-has-cross-region-replication-enabled</a></td>
 </tr>
 <tr style='background-color: #ffe5b4;'>
@@ -254,7 +254,7 @@ code {
 <td>38 - 41</td>
 <td>Ensure that S3 buckets are encrypted with KMS by default</td>
 <td>HIGH</td>
-<td>This high-severity issue relates to the lack of default Server-Side Encryption (SSE) in S3 buckets using AWS Key Management Service (KMS). If the S3 buckets are not encrypted, it may leave sensitive data exposed and vulnerable to breaches, which can result in costly information or data loss. In order to resolve this, it’s highly recommended to set a default encryption policy on S3 buckets via the Terraform AWS provider. By doing this, every new object in the bucket gets encrypted with AWS KMS, thereby significantly enhancing the security of stored data. Also, regularly audit your AWS environment to ensure that all S3 buckets are compliant with this encryption setting, thereby minimizing potential security risks.</td>
+<td>This high-severity issue pertains to a lack of encryption at rest for S3 buckets managed through the Terraform framework, which denotes a significant data security risk, as unauthorized individuals may potentially gain easier access to sensitive information stored within these buckets. You should address this immediately by modifying the Terraform code for S3 bucket creation to include default server-side encryption using AWS Key Management Service (KMS). Ensure that every new bucket automatically uses a KMS-managed key for encryption, while existing buckets should be audited and updated accordingly. This will significantly enhance the confidentiality and integrity of the data stored within your S3 buckets.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-buckets-are-encrypted-with-kms-by-default" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-buckets-are-encrypted-with-kms-by-default</a></td>
 </tr>
 <tr style='background-color: #ffe5b4;'>
@@ -263,16 +263,16 @@ code {
 <td>38 - 41</td>
 <td>Ensure all data stored in the S3 bucket have versioning enabled</td>
 <td>HIGH</td>
-<td>The issue points to a lack of versioning for the data stored in the S3 bucket, posing a serious risk as it limits the ability to retrieve previous versions of an object, or even recover a deleted object. Enabling versioning is crucial for maintaining the integrity and accessibility of data, as it allows for the preservation, retrieval, and restoration of every version of every object in the bucket. To resolve this, modify the S3 bucket versioning configuration in the Terraform scripts by adding or ensuring the presence of the versioning block in all aws_s3_bucket resources, and setting the "enabled" argument in this block to true. This will ensure all new objects added to the bucket will be versioned, thereby providing an additional layer of data protection.</td>
+<td>The highlighted issue indicates that the AWS S3 bucket under consideration does not have versioning enabled, which is a crucial feature for ensuring data persistence and recovery in case of accidental deletions, overwrites, or encountering potential cyber threats. Not having versioning enabled may expose your infrastructure to data losses with no way to retrieve the previous versions. To remediate, it is recommended to enable versioning on all existing S3 buckets. In Terraform, this can be implemented by including a versioning block with 'enabled = true' within the 'aws_s3_bucket' resource. For all future implementations, make sure versioning is included in the resource planning phase itself, to ensure data integrity and easy recoverability, ultimately fortifying your overall data management strategy.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-16-enable-versioning" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-16-enable-versioning</a></td>
 </tr>
-<tr style='background-color: #fff3cd;'>
+<tr style='background-color: #ffe5b4;'>
 <td>Checkov</td>
 <td>/main.tf</td>
 <td>21 - 35</td>
 <td>Ensure an IAM role is attached to EC2 instance</td>
-<td>MEDIUM</td>
-<td>This high-severity issue implies that an EC2 instance is currently operating without an attached IAM role, thereby making it highly susceptible to unauthorized access. Given that IAM roles provide controlled, temporary access to your AWS services, this lack of security could create potential backdoors for threat activities. To rectify the issue, it is recommended to attach a predefined IAM role to the EC2 instance. This role should have minimal permissions needed to successfully perform its intended tasks. Always ensure to follow the principle of least privilege (PoLP) and conduct regular access reviews to avoid potential security risks.</td>
+<td>HIGH</td>
+<td>The issue at hand concerns inappropriate security protocol setup within the terraform framework. More specifically, it is about the non-compliance with a noted best practice - the attachment of an Identity and Access Management (IAM) role to the EC2 instance. Without such a role, the EC2 instance may lack the specific privileges and access control mechanisms it needs to interact securely with other services, leading to possible security vulnerabilities. To rectify this, ensure that every EC2 instance is tied to a suitable IAM role using the 'iam_instance_profile' parameter in the respective 'aws_instance' block in your terraform code. This IAM role should be configured to provide the least privileges necessary to fulfill the function of the EC2 instance, thus adhering to the principle of least privilege and enhancing overall system security.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance</a></td>
 </tr>
 <tr style='background-color: #fff3cd;'>
@@ -281,8 +281,17 @@ code {
 <td>38 - 41</td>
 <td>Ensure that an S3 bucket has a lifecycle configuration</td>
 <td>MEDIUM</td>
-<td>The high-severity issue 'Ensure that an S3 bucket has a lifecycle configuration' in the terraform framework entails a significant lapse in the management of object storage which could lead to unnecessary costs and data management issues. Without a lifecycle configuration, data stored in the S3 bucket may persist indefinitely, leading to an overutilization of resources and potential data bloat. As a remedy, it's crucial to add a lifecycle policy to every S3 bucket. This policy will automate processes such as moving older, less accessed data to cost-effective storage options, or deleting data that is no longer needed. Applying a lifecycle policy ensures optimal data management, prevents unnecessary costs, enhances performance, and helps maintain a clean, manageable bucket. Terraform provides a 'aws_s3_bucket_lifecycle_configuration' resource where this configuration can be efficiently put in place.</td>
+<td>The highlighted issue pertains to the absence of a lifecycle configuration for an S3 bucket within your terraform framework, which can lead to inefficient data management and increase storage costs. A lifecycle configuration in an S3 bucket helps automate certain tasks such as migration of data to lower-cost storage classes, archival of data, or deletion of unneeded data after a specified period. To correct this, it's recommended to define a lifecycle policy for your S3 bucket in your terraform configuration file. You should determine and implement lifecycle rules that fit your data management needs, including explicit instruction for transitioning objects between storage classes and expiration of objects. By adopting this practice, you'll improve storage efficiency and reduce costs while maintaining data integrity.</td>
 <td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-61" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-61</a></td>
+</tr>
+<tr style='background-color: #ffffff;'>
+<td>Checkov</td>
+<td>/main.tf</td>
+<td>16 - 18</td>
+<td>Ensure no hard coded AWS access key and secret key exists in provider</td>
+<td>UNKNOWN</td>
+<td>PASSED</td>
+<td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5</a></td>
 </tr>
 <tr style='background-color: #ffffff;'>
 <td>Checkov</td>
@@ -368,15 +377,6 @@ code {
 <tr style='background-color: #ffffff;'>
 <td>Checkov</td>
 <td>/main.tf</td>
-<td>16 - 18</td>
-<td>Ensure no hard coded AWS access key and secret key exists in provider</td>
-<td>UNKNOWN</td>
-<td>PASSED</td>
-<td><a href="https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5" target="_blank">https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5</a></td>
-</tr>
-<tr style='background-color: #ffffff;'>
-<td>Checkov</td>
-<td>/main.tf</td>
 <td>38 - 41</td>
 <td>S3 Bucket has an ACL defined which allows public READ access.</td>
 <td>UNKNOWN</td>
@@ -413,6 +413,6 @@ code {
 </tbody></table>
 </div>
 <footer>
-Report generated on <strong>2024-12-28 23:13:18</strong>
+Report generated on <strong>2024-12-31 12:50:17</strong>
 </footer>
 </body></html>

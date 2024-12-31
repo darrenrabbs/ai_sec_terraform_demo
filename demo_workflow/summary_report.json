@@ -2,8 +2,8 @@
     "total_issues": 27,
     "by_severity": {
         "critical": 0,
-        "high": 4,
-        "medium": 9,
+        "high": 5,
+        "medium": 8,
         "low": 0,
         "warning": 0
     }
