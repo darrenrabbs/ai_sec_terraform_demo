@@ -6,12 +6,13 @@ on:
       - main
     paths:
       - "s3_module/**"
+      - "kubernetes/**"
   pull_request:
     branches:
       - main
     paths:
       - "s3_module/**"
-
+      - "kubernetes/**"
 jobs:
   run-ai-sec:
     runs-on: ubuntu-latest
