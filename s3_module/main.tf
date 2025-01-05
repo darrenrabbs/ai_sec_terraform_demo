@@ -37,15 +37,15 @@ resource "aws_instance" "example" {
 # S3 bucket with public access blocked
 resource "aws_s3_bucket" "example" {
   bucket = "my-secure-bucket"
-  acl    = "private" # TFSec: Ensure bucket ACL is private
+  acl    = "private"
 }
 
 # Block public access for S3 bucket
 resource "aws_s3_bucket_public_access_block" "example" {
   bucket = aws_s3_bucket.example.id
 
-  block_public_acls       = true # TFSec: Block public ACL
-  block_public_policy     = true # TFSec: Block public policies
+  block_public_acls       = true
+  block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
