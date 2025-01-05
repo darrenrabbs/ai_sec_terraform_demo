@@ -1,10 +1,13 @@
 {
-    "total_issues": 27,
+    "total_issues": 13,
     "by_severity": {
         "critical": 0,
         "high": 5,
         "medium": 8,
         "low": 0,
-        "warning": 0
-    }
+        "warning": 0,
+        "unknown": 0,
+        "n/a": 0
+    },
+    "passed_issues": 14
 }
